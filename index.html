@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>개발의 시선으로 품질을 증명하는 자동화 QA 엔지니어</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- 수평 스크롤 컨테이너 -->
+    <div class="horizontal-container">
+
+        <!-- 1. Hero Section -->
+        <header class="hero" id="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    개발의 시선으로 품질을 증명하는<br>
+                    <span>자동화 QA 엔지니어, [한지욱]입니다.</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Email: dev.qa@example.com | GitHub: github.com/username<br>
+                    Tech Stack: Python, Selenium, Playwright, CI/CD, JavaScript
+                </p>
+            </div>
+            <!-- 우측 방향 화살표 -->
+            <a href="#projects" class="scroll-arrow" aria-label="Scroll Right">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </a>
+        </header>
+
+        <!-- 2. Projects Section -->
+        <section class="portfolio-section" id="projects">
+            <!-- 좌측 방향 화살표 (Hero로 이동) -->
+            <a href="#hero" class="scroll-arrow scroll-arrow-left" aria-label="Scroll Left">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 12H4M4 12L10 6M4 12L10 18" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </a>
+            <div class="section-header">
+                <h2 class="section-title">Projects</h2>
+                <p class="section-desc">개발에서 도출한 경험과 인사이트</p>
+            </div>
+
+            <!-- 자바스크립트에 의해 동적으로 렌더링되는 영역 -->
+            <div class="card-grid"></div>
+
+            <!-- 카드 슬라이더 페이지네이션 (동적 생성됨) -->
+            <div class="pagination"></div>
+
+            <!-- 넘어가는 화살표 -->
+            <a href="#qa" class="scroll-arrow section-arrow" aria-label="Scroll Right">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </a>
+        </section>
+
+        <!-- 3. QA & Automation Section -->
+        <section class="portfolio-section" id="qa">
+            <!-- 좌측 방향 화살표 (Projects로 이동) -->
+            <a href="#projects" class="scroll-arrow scroll-arrow-left" aria-label="Scroll Left">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 12H4M4 12L10 6M4 12L10 18" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </a>
+            <div class="section-header">
+                <h2 class="section-title">QA & Automation</h2>
+                <p class="section-desc">품질을 높이는 테스트 자동화 파이프라인</p>
+            </div>
+
+            <!-- 자바스크립트에 의해 동적으로 렌더링되는 영역 -->
+            <div class="card-grid"></div>
+
+            <!-- 카드 슬라이더 페이지네이션 (동적 생성됨) -->
+            <div class="pagination"></div>
+
+            <footer class="footer">
+                <p>&copy; 2026 [한지욱]. All rights reserved.</p>
+            </footer>
+        </section>
+
+    </div>
+
+    <!-- 모달(Modal) 창 -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" aria-label="Close modal">&times;</button>
+            <div class="modal-header">
+                <h2 id="modal-title">프로젝트 이름</h2>
+                <div id="modal-tags" class="card-tags"></div>
+            </div>
+            <div id="modal-body" class="modal-body">
+                <!-- 상세 내용 삽입 -->
+            </div>
+            <div class="modal-footer">
+                <a id="modal-github" href="#" target="_blank" class="github-btn" style="display: none;">
+                    GitHub에서 보기
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 로컬 실행을 위해 정적 데이터 js 파일 먼저 선언 -->
+    <script src="data/projects.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
