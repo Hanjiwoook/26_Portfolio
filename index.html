@@ -4,92 +4,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>개발의 시선으로 품질을 증명하는 자동화 QA 엔지니어</title>
+    <title>QA Engineer Portfolio | Han Jiwook</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;700;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;700;900&display=swap"
         rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- 수평 스크롤 컨테이너 -->
-    <div class="horizontal-container">
+    <!-- Top Bar: Navigation & Theme Toggle -->
+    <nav class="top-nav">
+        <a href="#hero" class="logo">HJU.<span>Portfolio</span></a>
+        <div class="nav-links">
+            <a href="#hero">Intro</a>
+            <a href="#about">About Me</a>
+            <a href="#projects">Projects</a>
+            <a href="#qa">Automation</a>
+        </div>
+        <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+            <i data-lucide="moon" class="dark-icon"></i>
+            <i data-lucide="sun" class="light-icon"></i>
+        </button>
+    </nav>
+
+    <!-- 메인 스크롤 컨테이너 -->
+    <div class="main-container">
 
         <!-- 1. Hero Section -->
         <header class="hero" id="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    개발의 시선으로 품질을 증명하는<br>
-                    <span>자동화 QA 엔지니어, [한지욱]입니다.</span>
-                </h1>
-                <p class="hero-subtitle">
-                    Email: dev.qa@example.com | GitHub: github.com/username<br>
-                    Tech Stack: Python, Selenium, Playwright, CI/CD, JavaScript
-                </p>
+            <div class="hero-visual">
+                <div class="terminal-mockup">
+                    <div class="terminal-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <div class="terminal-body" id="hero-typing">
+                        <span class="command">> playwright test</span><br>
+                        <span class="log">Running E2E tests...</span><br>
+                        <span class="log success">✓ All tests passed (120ms)</span>
+                    </div>
+                </div>
             </div>
-            <!-- 우측 방향 화살표 -->
-            <a href="#projects" class="scroll-arrow" aria-label="Scroll Right">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
+            <div class="hero-content">
+                <div class="hero-title-group">
+                    <p class="hero-subtitle-top">AI를 동료 삼아</p>
+                    <h1 class="hero-title">
+                        테스트의 한계를 넓혀가는<br>
+                        <span>QA 엔지니어, 한지욱입니다.</span>
+                    </h1>
+                </div>
+                <p class="hero-subtitle">
+                    Email: wldnrrha98@naver.com | GitHub: github.com/Hanjiwoook
+                </p>
+                <div class="hero-skills">
+                    <span class="skill-pill">Playwright</span>
+                    <span class="skill-pill">TypeScript</span>
+                    <span class="skill-pill">CI/CD</span>
+                    <span class="skill-pill">FastAPI</span>
+                </div>
+            </div>
+            <!-- Scroll Indicator -->
+            <a href="#about" class="scroll-arrow">
+                <i data-lucide="chevron-down" width="40" height="40"></i>
             </a>
         </header>
 
-        <!-- 2. Projects Section -->
-        <section class="portfolio-section" id="projects">
-            <!-- 좌측 방향 화살표 (Hero로 이동) -->
-            <a href="#hero" class="scroll-arrow scroll-arrow-left" aria-label="Scroll Left">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 12H4M4 12L10 6M4 12L10 18" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </a>
+        <!-- 2. About Me Section -->
+        <section class="portfolio-section" id="about">
             <div class="section-header">
-                <h2 class="section-title">Projects</h2>
-                <p class="section-desc">개발에서 도출한 경험과 인사이트</p>
+                <h2 class="section-title">About Me</h2>
+                <p class="section-desc">완벽하지 않기에 도구를 학습하고, AI와 협업하며 한 걸음씩 성장하고 있습니다.</p>
             </div>
 
-            <!-- 자바스크립트에 의해 동적으로 렌더링되는 영역 -->
-            <div class="card-grid"></div>
+            <div class="about-container">
+                <div class="about-profile glass">
+                    <div class="profile-img-placeholder" style="overflow: hidden; position: relative; padding: 0;">
+                        <!-- 기본 아이콘 -->
+                        <i data-lucide="user" stroke-width="1.5" style="position: absolute; z-index: 1;"></i>
+                        <!-- 지욱님 증명사진/프로필 사진을 assets 폴더에 넣고 이름을 profile.jpg 로 맞추세요! (없으면 아이콘이 뜹니다) -->
+                        <img src="assets/profile.jpg" alt="Han Jiwook Profile" style="width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 2; border-radius: 50%;" onerror="this.style.display='none';">
+                    </div>
+                    <div class="profile-title">
+                        <h3>한지욱 (HAN JI UK)</h3>
+                        <p class="role">AI-Assisted QA Engineer</p>
+                    </div>
+                </div>
 
-            <!-- 카드 슬라이더 페이지네이션 (동적 생성됨) -->
-            <div class="pagination"></div>
+                <div class="about-details">
+                    <div class="detail-card glass">
+                        <div class="card-header-inline">
+                            <i data-lucide="user-check"></i>
+                            <h4>Profile & Contact</h4>
+                        </div>
+                        <div class="about-contact-list">
+                            <a href="tel:01050494192">
+                                <i data-lucide="smartphone"></i>
+                                010-5049-4192
+                            </a>
+                            <a href="mailto:wldnrrha98@naver.com">
+                                <i data-lucide="mail"></i>
+                                wldnrrha98@naver.com
+                            </a>
+                            <a href="https://github.com/Hanjiwoook" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.2c3-.3 6-1.5 6-6.5a5.4 5.4 0 0 0-1.5-3.8 5.3 5.3 0 0 0 0-3.8s-1.3-.4-4 1.4a13.3 13.3 0 0 0-7 0c-2.7-1.8-4-1.4-4-1.4a5.3 5.3 0 0 0 0 3.8 5.4 5.4 0 0 0-1.5 3.8c0 5 3 6.2 6 6.5a4.8 4.8 0 0 0-1 3.2v4"></path><path d="M9 18c-4.5 1.5-5-2.5-7-3"></path></svg>
+                                GitHub (@Hanjiwoook)
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-card glass">
+                        <div class="card-header-inline">
+                            <i data-lucide="book-open"></i>
+                            <h4>Training & Education</h4>
+                        </div>
+                        <ul class="compact-list">
+                            <li><strong>성결대학교</strong> - 졸업</li>
+                            <li><strong>SW테스터 양성과정</strong> - 국비교육 수료 (2개월)
+                                <br><span style="font-size:0.9rem; color:var(--text-secondary);">- ISTQB 테스팅 기초 및 탐색적 테스트</span>
+                                <br><span style="font-size:0.9rem; color:var(--text-secondary);">- 실무 이커머스(YES24) TC 설계 경험</span>
+                            </li>
+                        </ul>
+                    </div>
 
-            <!-- 넘어가는 화살표 -->
-            <a href="#qa" class="scroll-arrow section-arrow" aria-label="Scroll Right">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </a>
+                    <div class="detail-card glass">
+                        <div class="card-header-inline">
+                            <i data-lucide="award"></i>
+                            <h4>Certifications</h4>
+                        </div>
+                        <ul class="compact-list">
+                            <li><strong>ISTQB</strong> Foundation Level</li>
+                            <li><strong>한국사능력검정시험</strong> 3급</li>
+                            <li><strong>워드프로세서</strong> (대한상공회의소)</li>
+                            <li><strong>자동차운전면허</strong> 1종보통</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-card glass">
+                        <div class="card-header-inline">
+                            <i data-lucide="trophy"></i>
+                            <h4>Awards (5관왕)</h4>
+                        </div>
+                        <ul class="compact-list" style="margin-top:0.5rem;">
+                            <li><span style="color:var(--accent-purple);">[교외]</span> 한이음ICT 멘토링 공모전 입선</li>
+                            <li><span style="color:var(--accent-purple);">[교외]</span> IIBC 우수논문상</li>
+                            <li><span style="color:var(--accent-cyan);">[교내]</span> 창의문제해결 프로젝트 최우수상</li>
+                            <li><span style="color:var(--accent-cyan);">[교내]</span> VGA 캡스톤 디자인 우수상</li>
+                            <li><span style="color:var(--accent-cyan);">[교내]</span> UX Design 소논문 우수상</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- 3. QA & Automation Section -->
-        <section class="portfolio-section" id="qa">
-            <!-- 좌측 방향 화살표 (Projects로 이동) -->
-            <a href="#projects" class="scroll-arrow scroll-arrow-left" aria-label="Scroll Left">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 12H4M4 12L10 6M4 12L10 18" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </a>
+
+
+        <!-- 3. Tech Stack Section -->
+        <section class="portfolio-section" id="stack">
             <div class="section-header">
-                <h2 class="section-title">QA & Automation</h2>
-                <p class="section-desc">품질을 높이는 테스트 자동화 파이프라인</p>
+                <h2 class="section-title">Tech Stack</h2>
+                <p class="section-desc">문제를 해결하기 위해 활용하는 도구들</p>
             </div>
+            <div class="stack-grid">
+                <div class="stack-category glass">
+                    <h4>QA & Automation</h4>
+                    <div class="stack-icons">
+                        <span class="skill-pill">Playwright (E2E)</span>
+                        <span class="skill-pill">Postman (API)</span>
+                        <span class="skill-pill">Manual TC</span>
+                        <span class="skill-pill">JMeter</span>
+                    </div>
+                </div>
+                <div class="stack-category glass">
+                    <h4>Frontend & Mobile</h4>
+                    <div class="stack-icons">
+                        <span class="skill-pill">Flutter (Dart)</span>
+                        <span class="skill-pill">Next.js 15 (TS)</span>
+                        <span class="skill-pill">Zustand</span>
+                        <span class="skill-pill">Tailwind CSS</span>
+                    </div>
+                </div>
+                <div class="stack-category glass">
+                    <h4>Backend & Infra</h4>
+                    <div class="stack-icons">
+                        <span class="skill-pill">Python</span>
+                        <span class="skill-pill">FastAPI</span>
+                        <span class="skill-pill">GitHub Actions</span>
+                        <span class="skill-pill">Vercel & Supabase</span>
+                    </div>
+                </div>
+                <div class="stack-category glass" style="border-color: var(--accent-cyan);">
+                    <h4>AI Engine & Vibe Coding</h4>
+                    <div class="stack-icons">
+                        <span class="skill-pill">Gemini Models</span>
+                        <span class="skill-pill">PaddleOCR</span>
+                        <span class="skill-pill">Prompt Engineering</span>
+                        <span class="skill-pill">AI-Assisted Dev</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            <!-- 자바스크립트에 의해 동적으로 렌더링되는 영역 -->
+        <!-- 4. Projects Section -->
+        <section class="portfolio-section" id="projects">
+            <div class="section-header">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div>
+                        <h2 class="section-title">Projects</h2>
+                        <p class="section-desc">개발에서 도출한 경험과 인사이트</p>
+                    </div>
+                    <span class="swipe-hint"><i data-lucide="mouse"></i> 좌우로 스크롤하여 더 보기</span>
+                </div>
+            </div>
             <div class="card-grid"></div>
+        </section>
 
-            <!-- 카드 슬라이더 페이지네이션 (동적 생성됨) -->
-            <div class="pagination"></div>
+        <!-- 5. QA & Automation Section -->
+        <section class="portfolio-section" id="qa">
+            <div class="section-header">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div>
+                        <h2 class="section-title">QA & Automation</h2>
+                        <p class="section-desc">품질을 높이는 테스트 자동화 파이프라인</p>
+                    </div>
+                    <span class="swipe-hint"><i data-lucide="mouse"></i> 좌우로 스크롤하여 더 보기</span>
+                </div>
+            </div>
+            <div class="card-grid"></div>
+        </section>
 
-            <footer class="footer">
-                <p>&copy; 2026 [한지욱]. All rights reserved.</p>
-            </footer>
+        <!-- 6. Contact Section -->
+        <section class="portfolio-section" id="contact">
+            <div class="section-header">
+                <h2 class="section-title">Let's Build Quality Together</h2>
+                <p class="section-desc">단순히 결함을 찾는 것을 넘어, 제품의 비즈니스 가치를 높일 준비가 되어 있습니다.</p>
+            </div>
+            <div class="contact-container glass">
+                <div class="contact-info">
+                    <p>개발 파트와의 원활한 소통을 기반으로, 빠르고 안정적인 배포 주기에 기여하는 든든한 QA/SDET 파트너가 되겠습니다.<br>제가 이력서에서 다 담지 못한 제 성장 과정에 관심이 있으시다면 아래로 연락 부탁드립니다.</p>
+                    <div class="contact-methods">
+                        <a href="mailto:wldnrrha98@naver.com" class="contact-card glass">
+                            <i data-lucide="mail"></i>
+                            <span>인터뷰 & 채용 문의</span>
+                            <small>wldnrrha98@naver.com</small>
+                        </a>
+                        <a href="https://github.com/Hanjiwoook" target="_blank" class="contact-card glass">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.2c3-.3 6-1.5 6-6.5a5.4 5.4 0 0 0-1.5-3.8 5.3 5.3 0 0 0 0-3.8s-1.3-.4-4 1.4a13.3 13.3 0 0 0-7 0c-2.7-1.8-4-1.4-4-1.4a5.3 5.3 0 0 0 0 3.8 5.4 5.4 0 0 0-1.5 3.8c0 5 3 6.2 6 6.5a4.8 4.8 0 0 0-1 3.2v4"></path><path d="M9 18c-4.5 1.5-5-2.5-7-3"></path></svg>
+                            <span>코드 & 자동화 스크립트 모아보기</span>
+                            <small>@Hanjiwoook</small>
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-footer">
+                    <p class="footer-copy">&copy; 2026 HAN JI UK. Built with Automations & QA Mindset.</p>
+                </div>
+            </div>
         </section>
 
     </div>
@@ -98,6 +271,8 @@
     <div id="project-modal" class="modal">
         <div class="modal-content">
             <button class="close-btn" aria-label="Close modal">&times;</button>
+            <!-- 모달 상단 이미지/GIF 배너 (동적 갤러리 생성) -->
+            <div id="modal-banner" class="modal-banner" style="display:none;"></div>
             <div class="modal-header">
                 <h2 id="modal-title">프로젝트 이름</h2>
                 <div id="modal-tags" class="card-tags"></div>
@@ -105,9 +280,10 @@
             <div id="modal-body" class="modal-body">
                 <!-- 상세 내용 삽입 -->
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="display: flex; gap: 1rem; justify-content: flex-end;">
                 <a id="modal-github" href="#" target="_blank" class="github-btn" style="display: none;">
-                    GitHub에서 보기
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.2c3-.3 6-1.5 6-6.5a5.4 5.4 0 0 0-1.5-3.8 5.3 5.3 0 0 0 0-3.8s-1.3-.4-4 1.4a13.3 13.3 0 0 0-7 0c-2.7-1.8-4-1.4-4-1.4a5.3 5.3 0 0 0 0 3.8 5.4 5.4 0 0 0-1.5 3.8c0 5 3 6.2 6 6.5a4.8 4.8 0 0 0-1 3.2v4"></path><path d="M9 18c-4.5 1.5-5-2.5-7-3"></path></svg>
+                    GitHub보기
                 </a>
             </div>
         </div>

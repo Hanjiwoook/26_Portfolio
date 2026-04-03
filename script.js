@@ -1,124 +1,94 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const container = document.querySelector('.horizontal-container');
+    // 1. Initialize Lucide Icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
 
-    // 마우스 휠(세로 스크롤)을 가로 스크롤로 매끄럽게 변환
-    container.addEventListener('wheel', (evt) => {
-        evt.preventDefault();
-        container.scrollLeft += evt.deltaY;
-    }, { passive: false });
+    const container = document.querySelector('.main-container');
 
-    // 모달 관련 요소 찾기
+    // Theme Toggle Logic
+    const themeToggle = document.getElementById('theme-toggle');
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    
+    themeToggle.addEventListener('click', () => {
+        const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        // Re-create icons to update colors if needed
+        lucide.createIcons();
+    });
+
+    // 4. Hero Terminal Typing Animation
+    const typeTerminal = () => {
+        const terminalBody = document.getElementById('hero-typing');
+        if (!terminalBody) return;
+
+        const lines = [
+            { text: '> playwright test', class: 'command' },
+            { text: 'Running E2E tests on Chrome, Firefox, Webkit...', class: 'log' },
+            { text: '✓ Login flow successful (12ms)', class: 'log success' },
+            { text: '✓ Dashboard widget interaction (45ms)', class: 'log success' },
+            { text: '✓ API payload validation (8ms)', class: 'log success' },
+            { text: 'All 3 tests passed!', class: 'log success' }
+        ];
+
+        terminalBody.innerHTML = '';
+        let lineIdx = 0;
+
+        const addLine = () => {
+            if (lineIdx < lines.length) {
+                const line = lines[lineIdx];
+                const span = document.createElement('span');
+                span.className = line.class;
+                span.textContent = line.text;
+                terminalBody.appendChild(span);
+                terminalBody.appendChild(document.createElement('br'));
+                lineIdx++;
+                setTimeout(addLine, 600);
+            } else {
+                setTimeout(typeTerminal, 3000); // Loop after 3s
+            }
+        };
+
+        addLine();
+    };
+
+    typeTerminal();
+
+    // 5. Modal Logic
     const modal = document.getElementById('project-modal');
     const closeBtn = document.querySelector('.close-btn');
     const modalTitle = document.getElementById('modal-title');
     const modalTags = document.getElementById('modal-tags');
     const modalBody = document.getElementById('modal-body');
     const modalGithub = document.getElementById('modal-github');
+    const modalBanner = document.getElementById('modal-banner');
 
-    // 모달 닫기 제어
-    const closeModal = () => {
-        modal.classList.remove('show');
-    };
-
+    const closeModal = () => modal.classList.remove('show');
     closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal(); 
-    });
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-    // 교차 관찰자 (Intersection Observer) 생성 함수
-    const setupCardObserver = () => {
-        const observerOptions = {
-            root: container,
-            rootMargin: '0px',
-            threshold: 0.2
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0) scale(1)';
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        return observer;
-    };
-
-    const cardObserver = setupCardObserver();
-
-    // 캐러셀 페이지네이션 구현 (카드 3개가 모여서 1페이지(dot)를 이룸)
-    const setupPagination = (section, grid, cards) => {
-        const paginationContainer = section.querySelector('.pagination');
-        paginationContainer.innerHTML = ''; 
-
-        // 한 번에 최대 보이는 카드 수 == 3 
-        const itemsPerPage = 3;
-        const totalPages = Math.ceil(cards.length / itemsPerPage);
-
-        for (let i = 0; i < totalPages; i++) {
-            const dot = document.createElement('button');
-            dot.classList.add('dot');
-            if (i === 0) dot.classList.add('active'); // 처음에 1페이지가 활성화됨
-            dot.setAttribute('aria-label', `Page ${i + 1}`);
-            
-            // 점을 누르면 해당 페이지(인덱스 i * itemsPerPage)의 최좌측 카드로 부드럽게 스크롤
-            dot.addEventListener('click', () => {
-                const targetCard = cards[i * itemsPerPage];
-                if (targetCard) {
-                    grid.scrollTo({
-                        left: targetCard.offsetLeft, 
-                        behavior: 'smooth'
-                    });
-                }
-            });
-            
-            paginationContainer.appendChild(dot);
-        }
-
-        const dots = paginationContainer.querySelectorAll('.dot');
-
-        // 스크롤 시 각 페이지의 첫 번째 위치를 기준으로 어느 점(dot)을 활성화할지 찾음
-        grid.addEventListener('scroll', () => {
-            let activeIdx = 0;
-            let minDiff = Infinity;
-            
-            cards.forEach((card, idx) => {
-                const diff = Math.abs(card.offsetLeft - grid.scrollLeft);
-                if (diff < minDiff) {
-                    minDiff = diff;
-                    activeIdx = idx;
-                }
-            });
-
-            // 화면상 현재 제일 왼쪽에 붙어있는 카드 인덱스를 기준으로 페이지 구하기
-            const activePage = Math.floor(activeIdx / itemsPerPage);
-            
-            dots.forEach(d => d.classList.remove('active'));
-            if (dots[activePage]) {
-                dots[activePage].classList.add('active');
-            }
-        });
-    };
-
-    // 로컬 환경(file://)에서 fetch API CORS 에러 방지를 위해 window.projectsData 정적 데이터 활용
+    // 6. Project Rendering with New Card Design
     const renderProjects = (data) => {
         const sections = {
             'projects': document.querySelector('#projects .card-grid'),
             'qa': document.querySelector('#qa .card-grid')
         };
 
-        // 그리드 내용 초기화
-        if(sections['projects']) sections['projects'].innerHTML = '';
-        if(sections['qa']) sections['qa'].innerHTML = '';
+        Object.values(sections).forEach(grid => { if(grid) grid.innerHTML = ''; });
 
         data.forEach((item, index) => {
             const grid = sections[item.sectionId];
             if (!grid) return;
 
             const tagsHtml = item.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-            const cardHtml = `
+            
+            const cardElement = document.createElement('div');
+            cardElement.classList.add('card');
+            cardElement.innerHTML = `
                 <div class="card-image-placeholder">${item.placeholderLabel}</div>
                 <div class="card-content">
                     <h3 class="card-title">${item.title}</h3>
@@ -127,25 +97,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
 
-            const cardElement = document.createElement('div');
-            cardElement.classList.add('card');
-            cardElement.innerHTML = cardHtml;
-
-            // 나타나기 애니메이션 초기상태
-            cardElement.style.opacity = '0';
-            cardElement.style.transform = 'translateY(30px) scale(0.95)';
-            // 3의 배수(페이지 단위)에 맞춰 순차적으로 떠오르도록 애니메이션 지연시간 조정
-            cardElement.style.transition = `opacity 0.6s ease-out, border-color 0.3s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${(index % 3) * 0.15}s`;
-
-            // 카드 클릭 => 상세 모달 창 띄우기
             cardElement.addEventListener('click', () => {
                 modalTitle.textContent = item.title;
                 modalTags.innerHTML = tagsHtml;
                 modalBody.innerHTML = item.details;
                 
+                
+                if (item.imageUrl) {
+                    modalBanner.innerHTML = '';
+                    const urls = Array.isArray(item.imageUrl) ? item.imageUrl : [item.imageUrl];
+                    urls.forEach(url => {
+                        const img = document.createElement('img');
+                        img.src = url;
+                        img.className = 'modal-banner-img';
+                        img.alt = '프로젝트 시연화면';
+                        modalBanner.appendChild(img);
+                    });
+                    modalBanner.style.display = 'flex';
+                } else {
+                    modalBanner.style.display = 'none';
+                    modalBanner.innerHTML = '';
+                }
+
                 if (item.githubUrl) {
                     modalGithub.href = item.githubUrl;
-                    modalGithub.style.display = 'inline-block';
+                    modalGithub.style.display = 'inline-flex';
                 } else {
                     modalGithub.style.display = 'none';
                 }
@@ -154,25 +130,27 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             grid.appendChild(cardElement);
-            cardObserver.observe(cardElement);
         });
 
-        // HTML 추가가 끝난 이후에 페이지네이션(점) 구조를 세팅함
-        document.querySelectorAll('.portfolio-section').forEach(section => {
-            const grid = section.querySelector('.card-grid');
-            if (grid) {
-                const cards = grid.querySelectorAll('.card');
-                if (cards.length > 0) {
-                    setupPagination(section, grid, cards);
-                }
-            }
-        });
+        // Re-init icons for newly added HTML
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
     };
 
-    // 전역 변수로 선언된 프로젝트 데이터를 기반으로 렌더 실행
+    // 7. Smooth Navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
     if (typeof window.projectsData !== 'undefined') {
         renderProjects(window.projectsData);
-    } else {
-        console.error("데이터 로드 실패: projectsData 전역 변수가 정의되지 않았습니다.");
     }
 });
