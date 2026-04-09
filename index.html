@@ -23,7 +23,7 @@
             <a href="#hero">Intro</a>
             <a href="#about">About Me</a>
             <a href="#projects">Projects</a>
-            <a href="#qa">Automation</a>
+            <a href="#qa">QA Method</a>
         </div>
         <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
             <i data-lucide="moon" class="dark-icon"></i>
@@ -223,18 +223,75 @@
             <div class="card-grid"></div>
         </section>
 
-        <!-- 5. QA & Automation Section -->
+        <!-- 5. QA Methodology Section (안 A: 인포그래픽 방식) -->
         <section class="portfolio-section" id="qa">
             <div class="section-header">
-                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                    <div>
-                        <h2 class="section-title">QA & Automation</h2>
-                        <p class="section-desc">품질을 높이는 테스트 자동화 파이프라인</p>
+                <h2 class="section-title">QA Methodology</h2>
+                <p class="section-desc">"직접 개발해봤기 때문에 구조를 이해하고, 그래서 더 정확한 QA를 할 수 있습니다."</p>
+            </div>
+
+            <!-- 3단계 파이프라인 흐름도 -->
+            <div class="qa-pipeline">
+                <div class="pipeline-step glass">
+                    <div class="step-number">01</div>
+                    <div class="step-icon"><i data-lucide="file-search" width="36" height="36"></i></div>
+                    <h4>Shift-Left 설계</h4>
+                    <p>코드 작성 전, 비즈니스 로직의 엣지 케이스를 미리 도출하여 테스트 시나리오(TC)를 설계합니다.</p>
+                    <div class="step-example">
+                        <small>적용 사례</small>
+                        <span>이상형 월드컵 — 개발 전 TC-03(더블클릭 어뷰징) 시나리오 선제 설계</span>
                     </div>
-                    <span class="swipe-hint"><i data-lucide="mouse"></i> 좌우로 스크롤하여 더 보기</span>
+                </div>
+                <div class="pipeline-arrow"><i data-lucide="arrow-right" width="28" height="28"></i></div>
+                <div class="pipeline-step glass">
+                    <div class="step-number">02</div>
+                    <div class="step-icon"><i data-lucide="test-tubes" width="36" height="36"></i></div>
+                    <h4>다층 자동 검증</h4>
+                    <p>E2E · VRT · 부하테스트를 조합하여 기능·시각·성능을 동시에 검증하는 다층 방어선을 구축합니다.</p>
+                    <div class="step-tools">
+                        <span class="tool-badge">Playwright</span>
+                        <span class="tool-badge">K6</span>
+                        <span class="tool-badge">VRT</span>
+                    </div>
+                </div>
+                <div class="pipeline-arrow"><i data-lucide="arrow-right" width="28" height="28"></i></div>
+                <div class="pipeline-step glass">
+                    <div class="step-number">03</div>
+                    <div class="step-icon"><i data-lucide="git-branch" width="36" height="36"></i></div>
+                    <h4>CI/CD 자동 배포</h4>
+                    <p>코드 푸시마다 GitHub Actions가 빌드 → 테스트 → 리포트를 자동 실행하여 회귀 버그를 원천 차단합니다.</p>
+                    <div class="step-example">
+                        <small>적용 사례</small>
+                        <span>Gather Us — Push마다 결제 로직 E2E 전수검사 (10분 → 10초)</span>
+                    </div>
                 </div>
             </div>
-            <div class="card-grid"></div>
+
+            <!-- YES24 매뉴얼 QA -->
+            <div class="qa-manual-card glass">
+                <div class="qa-manual-header">
+                    <div class="qa-manual-icon"><i data-lucide="clipboard-check" width="32" height="32"></i></div>
+                    <div>
+                        <h4>매뉴얼 QA 역량 — YES24 E-Commerce TC 설계</h4>
+                        <p>자동화만이 답이 아닙니다. ISTQB 기반의 정석적인 매뉴얼 테스트 역시 제 핵심 역량입니다.</p>
+                    </div>
+                </div>
+                <div class="qa-manual-body">
+                    <div class="qa-manual-item">
+                        <strong>기능 명세 분석</strong>
+                        <span>YES24 쇼핑몰의 주문/장바구니/옵션 플로우에 대한 도메인 분석 및 기능 리스트(Feature List) 도출</span>
+                    </div>
+                    <div class="qa-manual-item">
+                        <strong>엣지 케이스 TC 설계</strong>
+                        <span>결제 수단 간 충돌, 재고 소진 예외 처리 등 탐색적/기반 테스트 케이스 작성</span>
+                    </div>
+                    <div class="qa-manual-item">
+                        <strong>결함 수명 주기 관리</strong>
+                        <span>논리적 버그를 리포팅 규칙에 맞춰 명확하게 전달하는 프로세스 체화</span>
+                    </div>
+                </div>
+                <p style="font-size:0.9rem; color:var(--text-secondary); text-align:center; margin-top:1.5rem;">※ 해당 엑셀 산출물은 면접 시 직접 시연/오픈 가능합니다.</p>
+            </div>
         </section>
 
         <!-- 6. Contact Section -->
@@ -277,8 +334,13 @@
                 <h2 id="modal-title">프로젝트 이름</h2>
                 <div id="modal-tags" class="card-tags"></div>
             </div>
+            <!-- Dev/QA 탭 전환 -->
+            <div id="modal-tabs" class="modal-tabs" style="display:none;">
+                <button class="modal-tab active" data-tab="dev">🔧 Dev</button>
+                <button class="modal-tab" data-tab="qa">🧪 QA</button>
+            </div>
             <div id="modal-body" class="modal-body">
-                <!-- 상세 내용 삽입 -->
+                <!-- 탭에 따라 devDetails 또는 qaDetails 렌더링 -->
             </div>
             <div class="modal-footer" style="display: flex; gap: 1rem; justify-content: flex-end;">
                 <a id="modal-github" target="_blank" class="github-btn" style="display: none;">

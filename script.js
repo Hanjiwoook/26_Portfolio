@@ -65,17 +65,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalBody = document.getElementById('modal-body');
     const modalGithub = document.getElementById('modal-github');
     const modalBanner = document.getElementById('modal-banner');
+    const modalTabs = document.getElementById('modal-tabs');
 
     const closeModal = () => modal.classList.remove('show');
     closeBtn.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
+    // ── Tab Switching State ──
+    let currentItem = null; // 현재 모달에 열린 프로젝트 데이터
+
+    const switchTab = (tabName) => {
+        if (!currentItem) return;
+
+        // 탭 버튼 활성화 상태 전환
+        modalTabs.querySelectorAll('.modal-tab').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tab === tabName);
+        });
+
+        // 콘텐츠 전환
+        if (tabName === 'dev') {
+            modalBody.innerHTML = currentItem.devDetails || currentItem.details || '';
+        } else if (tabName === 'qa') {
+            modalBody.innerHTML = currentItem.qaDetails || '';
+        }
+    };
+
+    // 탭 버튼 이벤트 리스너 (이벤트 위임)
+    modalTabs.addEventListener('click', (e) => {
+        const tabBtn = e.target.closest('.modal-tab');
+        if (!tabBtn) return;
+        switchTab(tabBtn.dataset.tab);
+    });
+
     // 6. Project Rendering with New Card Design
     const renderProjects = (data) => {
         const sections = {
             'projects': document.querySelector('#projects .card-grid'),
-            'qa': document.querySelector('#qa .card-grid')
         };
 
         Object.values(sections).forEach(grid => { if(grid) grid.innerHTML = ''; });
@@ -98,15 +124,18 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
 
             cardElement.addEventListener('click', () => {
+                // 현재 아이템 저장 (탭 전환에 사용)
+                currentItem = item;
+
                 modalTitle.textContent = item.title;
                 modalTags.innerHTML = tagsHtml;
-                modalBody.innerHTML = item.details;
-                
-                
-                if (item.imageUrl) {
+
+                // ── 배너 이미지 처리 ──
+                if (item.imageUrl && item.imageUrl.length > 0) {
                     modalBanner.innerHTML = '';
                     const urls = Array.isArray(item.imageUrl) ? item.imageUrl : [item.imageUrl];
                     urls.forEach(url => {
+                        if (!url) return;
                         const img = document.createElement('img');
                         img.src = url;
                         img.className = 'modal-banner-img';
@@ -119,6 +148,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     modalBanner.innerHTML = '';
                 }
 
+                // ── 탭 표시 여부 결정 ──
+                const hasDevDetails = !!item.devDetails;
+                const hasQaDetails = !!item.qaDetails;
+
+                if (hasDevDetails && hasQaDetails) {
+                    // 두 탭 모두 존재 → 탭 UI 표시, Dev 탭 기본 활성화
+                    modalTabs.style.display = 'flex';
+                    modalTabs.querySelectorAll('.modal-tab').forEach(btn => {
+                        btn.classList.toggle('active', btn.dataset.tab === 'dev');
+                    });
+                    modalBody.innerHTML = item.devDetails;
+                } else if (hasDevDetails) {
+                    // Dev만 존재 (Banergy 등) → 탭 숨기고 Dev 내용만 표시
+                    modalTabs.style.display = 'none';
+                    modalBody.innerHTML = item.devDetails;
+                } else {
+                    // 레거시 fallback (details 필드)
+                    modalTabs.style.display = 'none';
+                    modalBody.innerHTML = item.details || '';
+                }
+
+                // ── GitHub 버튼 ──
                 if (item.githubUrl) {
                     modalGithub.href = item.githubUrl;
                     modalGithub.style.display = 'inline-flex';

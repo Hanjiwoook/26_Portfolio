@@ -1,15 +1,17 @@
 window.projectsData = [
     // ---------------------------------------------------------
-    // 1. PROJECTS (개발 경험)
+    // PROJECTS (개발 + QA 통합 — 문제 해결 스토리 중심)
     // ---------------------------------------------------------
     {
       "id": "project-morphing",
       "sectionId": "projects",
       "placeholderLabel": "Morphing I (Intern)",
       "title": "(주)모핑아이 - 사내 관제 시스템 개발 (인턴십)",
+      "period": "2025.11 ~ 2026.01",
       "summary": "분산되어 실행되던 비효율적인 다중 프로그램 구조를 '단일 통합 윈도우 UI'로 합치면서, 오히려 시스템 부하량은 획기적으로 낮춘 관제 시스템 고도화 프로젝트.",
-      "tags": ["Python", "PyQt5", "UI Integration", "Gemini API"],
-      "details": "<h3>💡 핵심 기술 성과 (1인 개발 100%)</h3><ul><li><b>관제 시스템 UI 통합 및 최적화:</b> 기존에는 3D 파이프 렌더링 창과 센서 모니터링 창이 별개로 실행되어 사용자 경험이 떨어졌으나, 이를 <b>하나의 단일 GUI 프로그램으로 완벽하게 병합(Consolidation)</b>. 단일 프로그램 통합으로 우려되던 극심한 시스템 부하를 자체적인 처리 로직 최적화로 방어하여 <b>오히려 개별 실행 때보다 가볍게 동작하도록 고도화.</b></li><li><b>OpenCV 메모리 누수 및 동시성 해결:</b> 프로그램 통합 이후 실시간 카메라 데이터와 UI 렌더링 간 병목으로 나타난 <b>메모리 쓰레기 축적(Memory Leak)과 DB Lock 문제를 비동기 Queue 채널로 제어</b>하여 24시간 무중단 가동 환경 달성.</li><li><b>AI 리포트 자동화:</b> 센서 수치 변동을 파싱 및 분석한 뒤 Google Gemini API로 전송, 이상 징후 탐지 결과가 담긴 <b>PDF 리포트를 100% 자동으로 생성</b>하는 로직 구현.</li></ul><p style='margin-top:2rem; font-size:0.9rem; color:var(--text-secondary); text-align:center;'>※ 회사 내부 보안 규정(NDA)에 따라 통계 및 시스템 스크린샷은 첨부하지 않았습니다.</p>",
+      "tags": ["Python", "PyQt5", "OpenCV", "Gemini API", "SQLite"],
+      "devDetails": "<h3>🤔 왜 이 구조를 바꿨나?</h3><p>기존 관제 시스템은 <b>3D 파이프 렌더링 창, 센서 모니터링 창, 카메라 뷰어가 각각 독립된 프로그램</b>으로 실행되고 있었습니다. 운영자는 3개 프로그램을 동시에 띄워놓고 번갈아 확인해야 했고, 시스템 간 데이터 동기화도 불안정했습니다.</p><h3>🔧 핵심 구현</h3><ul><li><b>단일 GUI 통합(Consolidation):</b> 3개의 독립 프로그램을 하나의 PyQt5 윈도우로 완벽하게 병합. 탭/패널 구조로 운영자의 화면 전환 부담을 제거했습니다.</li><li><b>부하 역전 최적화:</b> 통합하면 부하가 3배 증가할 것이라는 우려가 있었으나, 내부 처리 로직을 멀티프로세스로 분리하고 렌더링 파이프라인을 최적화하여 <b>오히려 개별 실행 때보다 가볍게 동작</b>하도록 고도화했습니다.</li><li><b>AI 리포트 자동화:</b> 센서 수치 변동을 파싱하여 Google Gemini API로 전송, 이상 징후 탐지 결과가 담긴 PDF 리포트를 100% 자동 생성하는 로직을 구현했습니다.</li></ul>",
+      "qaDetails": "<h3>🐛 발견한 이슈 & 해결</h3><ul><li><b>메모리 누수 (Memory Leak):</b> 24시간 연속 가동 테스트 중 OpenCV 카메라 버퍼가 프로세스 간 공유 메모리에서 제대로 해제되지 않아 RAM 점유율이 지속 상승하는 현상 발견. → 영상 프레임 수신 후 즉시 폐기하는 버퍼 관리 규칙을 수립하여 메모리 안정화.</li><li><b>DB 교착(Deadlock):</b> 데이터 저장 프로세스와 UI 읽기 프로세스가 SQLite 파일에 동시 접근할 때 <code>Database is locked</code> 에러 발생. → Queue 기반 비동기 처리 방식으로 DB 접근을 직렬화하여 교착 원천 차단.</li></ul><h3>📊 검증 결과</h3><ul><li>통합 후 24시간 무중단 가동 시 데이터 누락 제로 달성</li><li>UI 반응 속도 대폭 개선 (체감 2~3초 → 즉시 반응)</li></ul><p style='margin-top:2rem; font-size:0.9rem; color:var(--text-secondary); text-align:center;'>※ 회사 내부 보안 규정(NDA)에 따라 시스템 스크린샷은 첨부하지 않았습니다.</p>",
       "imageUrl": "",
       "githubUrl": ""
     },
@@ -18,9 +20,11 @@ window.projectsData = [
         "sectionId": "projects",
         "placeholderLabel": "Gather Us Web",
         "title": "Gather Us - 단체 여행 N빵/숙소 큐레이션 플랫폼",
+        "period": "2026.03",
         "summary": "8~15인 규모의 단체 여행객을 타겟으로 한 복잡한 할증 로직 계산 및 맞춤형 숙소 추천 서비스.",
-        "tags": ["Next.js 15", "TypeScript", "Zustand", "Tailwind CSS"],
-        "details": "<h3>💡 핵심 기술 성과</h3><ul><li><b>복잡한 비즈니스 로직 제어:</b> 인원수 추가/감소, 비수기/성수기 할증 등 다변하는 조건에 맞춘 실시간 State(상태) 로직 구현.</li><li><b>비교함(Compare) 기능:</b> 여러 숙소를 담아 다중 항목을 대조하는 UI/UX 최적화 구조 설계.</li><li><b>성능:</b> Next.js 15 App Router와 최신 프레임워크를 도입하여 빠른 반응성 달성.</li></ul>",
+        "tags": ["Next.js 15", "TypeScript", "Zustand", "Playwright", "CI/CD"],
+        "devDetails": "<h3>🤔 왜 만들었나?</h3><p>기존 여행 플랫폼(야놀자/여기어때)은 <b>2~4인 소규모 여행만 최적화</b>되어 있습니다. 8~15인 단체 여행에서는 '성수기 할증 + 인원별 추가 요금 + 옵션별 가격 변동'을 매번 <b>카톡이나 엑셀로 수동 계산</b>하는 페인 포인트가 있었습니다.</p><h3>🔧 핵심 구현</h3><ul><li><b>실시간 N빵 State 엔진:</b> 인원 추가/감소, 비수기/성수기 할증 등 다변하는 조건에 따라 총액과 1인당 금액이 즉시 재계산되는 Zustand 기반 상태 관리 로직을 구현했습니다.</li><li><b>비교함(Compare) 기능:</b> 여러 숙소를 담아 다중 항목을 한눈에 대조할 수 있는 UI/UX를 설계하여, 단체 의사결정의 병목을 해소했습니다.</li><li><b>Next.js 15 App Router:</b> 최신 프레임워크를 도입하여 서버 컴포넌트 기반의 빠른 초기 로딩을 달성했습니다.</li></ul>",
+        "qaDetails": "<h3>🐛 발견한 이슈 & 해결</h3><ul><li><b>가격 State 정합성 오류:</b> 인원수를 빠르게 올렸다 내렸을 때 비동기 State 업데이트가 꼬여 <b>가격이 음수로 표시</b>되는 버그 발견. → Zustand의 상태 업데이트 로직에 최솟값 바운더리를 설정하고, Playwright E2E로 '인원 +15 → -1 → 가격 ≥ 0' 시나리오를 자동 검증하는 TC를 구축했습니다.</li><li><b>비교함 중복 추가:</b> 같은 숙소를 비교함에 여러 번 담을 수 있는 논리 결함 발견. → ID 기반 중복 체크 로직을 추가했습니다.</li></ul><h3>📊 구축한 QA 인프라</h3><ul><li><b>E2E 자동화:</b> Playwright로 결제 로직 핵심 플로우를 자동 검증 (수동 10분 → 자동 10초)</li><li><b>CI/CD:</b> GitHub Actions 연동, 코드 Push마다 Headless 브라우저가 전수 검사</li></ul>",
         "githubUrl": "https://github.com/Hanjiwoook/Gather_us"
     },
     {
@@ -28,9 +32,11 @@ window.projectsData = [
         "sectionId": "projects",
         "placeholderLabel": "Ideal WorldCup",
         "title": "이상형 월드컵 - 대규모 UGC 소셜 플랫폼",
-        "summary": "소셜 로그인과 대규모 사용자 참여를 견인하기 위한 바이럴(Viral) 타겟팅 기반 참여형 투표 플랫폼.",
-        "tags": ["Next.js", "NextAuth", "SEO"],
-        "details": "<h3>💡 핵심 기술 성과</h3><ul><li><b>UGC 트래픽 처리:</b> 수많은 유저가 동시다발적으로 참여하는 '월드컵 랭킹 투표' 시스템을 위한 1:N 데이터베이스 관계 설계.</li><li><b>소셜 연동:</b> NextAuth를 통해 복잡한 가입 과정 없이 소셜 로그인으로 사용자 획득 단가(CAC) 최소화 흐름 구현.</li><li><b>SEO 최적화:</b> 동적 라우팅 및 메타태그 관리를 통해 오가닉 트래픽 유입 구조 세팅.</li></ul>",
+        "period": "2026.03",
+        "summary": "기존 서비스(피쿠)의 3가지 구조적 한계를 분석하고, 봇 방어·미디어 확장·바이럴 설계를 직접 구현한 참여형 투표 플랫폼.",
+        "tags": ["Next.js", "Prisma", "Playwright", "K6", "GitHub Actions"],
+        "devDetails": "<h3>🤔 왜 만들었나? — 기존 서비스의 3가지 한계</h3><ul><li><b>❶ 봇 어뷰징 리스크:</b> 기존 피쿠(piku)는 계정 없이 월드컵을 생성할 수 있어, 봇이 대량의 쓰레기 데이터를 생성할 수 있는 구조적 취약점이 있었습니다.</li><li><b>❷ 미디어 확장성 부재:</b> 이미지만 지원하여 YouTube Shorts 등 영상 콘텐츠를 활용할 수 없었습니다.</li><li><b>❸ 스트리머 대응 없음:</b> 스트리머 방송용 전용 모드가 없어, 가장 큰 바이럴 유입 채널을 놓치고 있었습니다.</li></ul><h3>🔧 핵심 구현</h3><ul><li><b>OAuth Guard:</b> NextAuth 소셜 로그인으로 봇 어뷰징을 원천 차단하면서도 가입 허들은 최소화.</li><li><b>YouTube Shorts 임베딩:</b> 이미지 외 영상 콘텐츠까지 월드컵 아이템으로 등록 가능하도록 확장.</li><li><b>1:N DB 설계:</b> Prisma ORM 기반, 대규모 동시 투표 처리를 위한 관계형 스키마 설계.</li></ul>",
+        "qaDetails": "<h3>🐛 발견한 이슈 & 해결</h3><ul><li><b>더블클릭 어뷰징 (TC-03):</b> 카드를 0.1초 내 3번 연타하면 State가 꼬여 <b>8강을 건너뛰는 치명적 버그</b> 발생. → <code>useRef</code> Guard로 중복 이벤트를 차단하고, Playwright TC-03으로 자동 검증하여 회귀 방지.</li><li><b>API 응답 지연 (300ms 공백):</b> 결승전 POST 요청 후 UI가 멈추는 현상. → 도메인 특성상 즉각적 피드백이 중요하다 판단하여 낙관적 UI(Optimistic Update)를 적용.</li><li><b>익명 생성 → 봇 리스크:</b> 개발 초기 설계 단계에서 미리 예측하여 OAuth Guard를 선제 적용 (Shift-Left QA 사고방식).</li></ul><h3>📊 구축한 QA 인프라 (3중 검증)</h3><ul><li><b>E2E:</b> Playwright 3개 TC — 정상 플로우(TC-01), 결승 API 검증(TC-02), 더블클릭 방어(TC-03)</li><li><b>VRT:</b> 시각적 회귀 테스트 — 홈/생성 페이지 픽셀 매칭 (허용치 150px)</li><li><b>부하:</b> K6 50VU 스트레스 — p95 < 200ms, 에러율 < 1% 보장</li><li><b>CI/CD:</b> GitHub Actions — Push마다 Prisma 마이그레이션 → 빌드 → E2E 전수검사 자동 실행</li></ul>",
         "githubUrl": "https://github.com/Hanjiwoook/Ideal_type_WorldCup"
     },
     {
@@ -38,9 +44,11 @@ window.projectsData = [
       "sectionId": "projects",
       "placeholderLabel": "Post Flow System",
       "title": "Post Flow - 생성형 AI + 네이버 블로그 자동 발행 시스템",
-      "summary": "Gemini 2.5 AI 모델이 사진 문맥을 분석하여 글을 작성하고, Playwright 기반의 자체 엔진이 네이버 스마트에디터에 접속해 이미지를 첨부하고 최종 발행까지 완수하는 풀사이클(Full-cycle) 파이프라인 프로젝트.",
+      "period": "2026.03",
+      "summary": "네이버 블로그 API의 한계(스마트에디터 미지원)를 Playwright DOM 직접 제어로 돌파한 풀사이클 자동화 파이프라인.",
       "tags": ["Python FastAPI", "Flutter", "Gemini AI", "Playwright"],
-      "details": "<h3>💡 핵심 기술 성과</h3><ul><li><b>네이버 블로그 자동 발행 엔진 구축:</b> API로 해결할 수 없는 네이버 스마트에디터 환경을 극복하기 위해, Playwright를 이용해 동적 돔(DOM)을 제어하고 이미지를 배치(NaverBlogAutomationV2)하는 강력한 UI 자동화 인프라를 완성.</li><li><b>AI Context 파싱 & 아키텍처:</b> 다수의 이미지를 동시에 분석하여 제목(Title), 본문(Content), 태그(Tags)가 구조화된 JSON 데이터(debug_final_post.json)로 생성/검증하도록 백엔드 로직 설계.</li><li><b>UI/UX & 시스템 설계서:</b> 사용자가 AI 생성본을 직관적으로 확인/수정할 수 있는 모바일 에디터 화면(post_editor_screen) 최적화 및 '시스템 아키텍처 설계서'를 작성하여 1인 프로젝트의 문서화 한계 극복.</li></ul>",
+      "devDetails": "<h3>🤔 왜 만들었나?</h3><p>네이버 블로그 API는 스마트에디터 V2의 <b>서식 제어와 이미지 배치를 지원하지 않습니다.</b> 그래서 블로그 자동화 시장에는 '진짜 에디터에서 글을 쓰고 이미지를 배치하는' 솔루션이 부재했습니다. 이 문제를 <b>Playwright로 실제 브라우저를 조작</b>하여 해결했습니다.</p><h3>🔧 핵심 구현</h3><ul><li><b>네이버 스마트에디터 자동화 엔진:</b> API로 접근할 수 없는 네이버 에디터의 동적 DOM을 Playwright로 직접 제어. 이미지 업로드, 본문 삽입, 서식 적용, 최종 발행까지의 전 과정을 자동화했습니다.</li><li><b>AI 문맥 분석 파이프라인:</b> Gemini 2.5 모델이 다수의 사진을 동시 분석하여 제목/본문/태그가 담긴 구조화 JSON을 생성. 사용자는 승인만 하면 자동 발행됩니다.</li><li><b>시스템 아키텍처 설계서:</b> 1인 프로젝트의 문서화 한계를 극복하기 위해 풀 아키텍처 설계서를 작성했습니다.</li></ul>",
+      "qaDetails": "<h3>🐛 발견한 이슈 & 해결</h3><ul><li><b>AI Hallucination → 클라이언트 크래시:</b> Gemini 모델이 가끔 요청한 JSON 스키마를 위반하는 응답을 생성 (예: 태그 필드 누락, 본문이 배열 대신 문자열). → Flutter 클라이언트에서 파싱 실패로 앱이 크래시. → FastAPI 서버단에서 응답 스키마 검증 레이어를 추가하고, 위반 시 재요청하는 Retry 로직을 구현했습니다.</li><li><b>네이버 DOM 변동:</b> 네이버가 스마트에디터 DOM 구조를 업데이트하면 자동화 스크립트가 깨지는 문제. → 핵심 셀렉터를 상수화하고, DOM 변동 감지 시 Graceful Fallback 처리를 적용했습니다.</li></ul><h3>📊 구축한 QA 인프라</h3><ul><li><b>API 엔드포인트 검증:</b> Swagger 기반 FastAPI 헬스체크 및 이미지 업로드 모듈 단일 검증</li><li><b>AI 응답 무결성:</b> 다양한 사진 조합(테스트 더미)을 삽입하여 AI 응답의 JSON 스키마 준수 여부를 사전 검증</li></ul>",
       "githubUrl": "https://github.com/Hanjiwoook/Post-Flow"
     },
     {
@@ -48,45 +56,11 @@ window.projectsData = [
       "sectionId": "projects",
       "placeholderLabel": "Banergy App",
       "title": "밴러지 (Banergy) - 식품 알레르기 관리 앱",
-      "summary": "서버(Python Flask) 기반의 고성능 PaddleOCR 엔진을 적용하여, 촬영된 식품 성분표에서 알레르기 유발 성분을 즉각 진단하고 하이라이팅 처리(『성분명』)하는 모바일 앱. 학회 및 공모전 5관왕 프로젝트.",
+      "period": "2024.03 ~ 2024.12",
+      "summary": "식품 알레르기 환자가 매번 성분표를 육안으로 확인하는 불편함을 OCR 자동 스캔으로 해결한 앱. 학회 및 공모전 5관왕.",
       "tags": ["Flutter", "Python Flask", "PaddleOCR"],
-      "details": "<h3>💡 핵심 기술 성과</h3><ul><li><b>PaddleOCR API 서버 구축:</b> 한국어 인식률이 뛰어난 PaddleOCR을 Flask 서버 단위로 분리하여 모바일 기기 성능에 종속되지 않는 텍스트 추출 아키텍처를 설계.</li><li><b>텍스트 파싱 및 하이라이팅 로직:</b> 추출된 텍스트 중 사용자의 알레르기 성분이 감지되면 서버 단에서 『알레르기 성분』 형태로 하이라이팅 처리 로직을 구현하여 클라이언트로 반환.</li><li><b>수상 내역:</b> IIBC 학회 우수논문상, 한이음 ICT 멘토링 입상, 창의문제해결 최우수상 등 5관왕.</li></ul>",
+      "devDetails": "<h3>🤔 왜 만들었나?</h3><p>식품 알레르기 환자는 <b>마트에서 물건을 살 때마다 포장지 뒷면의 성분표를 일일이 읽어야 합니다.</b> 글씨가 작고, 성분명이 복잡하며, 시간도 오래 걸립니다. 이 반복되는 불편함을 <b>카메라로 성분표를 찍으면 위험 성분을 즉시 하이라이팅</b>해주는 앱으로 해결하고자 했습니다.</p><h3>🔧 핵심 구현</h3><ul><li><b>PaddleOCR API 서버 분리:</b> 모바일 기기 성능에 종속되지 않도록, 한국어 인식률이 뛰어난 PaddleOCR을 Flask 서버 단위로 분리하여 텍스트 추출 아키텍처를 설계했습니다.</li><li><b>위험 성분 하이라이팅:</b> 추출된 텍스트 중 사용자의 알레르기 성분이 감지되면 서버 단에서 『알레르기 성분』 형태로 마킹 처리하여 클라이언트로 반환합니다.</li></ul><h3>🏆 수상 내역 (5관왕)</h3><ul><li>IIBC 학회 우수논문상</li><li>한이음 ICT 멘토링 입선</li><li>창의문제해결 최우수상</li><li>VGA 캡스톤 디자인 우수상</li><li>UX Design 소논문 우수상</li></ul>",
       "imageUrl": ["assets/banergy_gif1.gif", "assets/banergy_gif2.gif"],
       "githubUrl": "https://github.com/Hanjiwoook/flutter_banergy"
-    },
-  
-    // ---------------------------------------------------------
-    // 2. QA & AUTOMATION (품질 보증 및 자동화 검증)
-    // ---------------------------------------------------------
-    {
-        "id": "qa-yes24",
-        "sectionId": "qa",
-        "placeholderLabel": "YES24 Test Cases",
-        "title": "YES24 E-Commerce 매뉴얼 테스트 설계 (강점)",
-        "summary": "가장 기본기가 되는 철저한 매뉴얼 품질 보증 과정. 기능 명세부터 시나리오/TC 설계, 결함 리포팅까지의 정석적인 절차 증명.",
-        "tags": ["Manual QA", "ISTQB", "Test Cases", "결함 리포트"],
-        "details": "<h3>💡 QA 전략 및 성과</h3><ul><li><b>전체 커버리지 분석:</b> YES24(예스24) 쇼핑몰의 복잡한 주문/장바구니/옵션 플로우에 대한 도메인 분석 및 기능 리스트(Feature List) 도출.</li><li><b>꼼꼼한 엣지 케이스 설계:</b> 결제 수단 간의 충돌, 재고 소진 예외 처리 등 ISTQB 기반의 기법을 활용한 탐색적/기반 테스트 케이스 작성.</li><li><b>결함 수명 주기 관리:</b> 파악하기 힘든 논리적 버그(Logical Bug)를 리포팅 규칙에 맞춰 명확하게 개발팀에 전달하기 위한 프로세스 체화.</li></ul><p style='margin-top:2rem; font-size:0.9rem; color:var(--text-secondary); text-align:center;'>※ 해당 엑셀 산출물은 면접 시 직접 시연/오픈 가능합니다.</p>",
-        "githubUrl": ""
-    },
-    {
-      "id": "qa-gather-us-e2e",
-      "sectionId": "qa",
-      "placeholderLabel": "Playwright CI/CD",
-      "title": "Gather Us - Playwright 기반 결제 로직 회귀테스트",
-      "summary": "가장 핵심 기능인 '동적 N빵 계산 및 결제 파이프라인'의 오류를 원천 차단하기 위한 UI 기반 E2E 자동화 구축.",
-      "tags": ["Playwright", "GitHub Actions", "CI/CD 자동화"],
-      "details": "<h3>💡 QA 전략 및 성과</h3><ul><li><b>동적 State 검증 자동화:</b> 단순 화면 렌더링이 아닌, '사용자가 인원수를 올릴 때 총 가격이 실시간으로 정확히 변경되는가?'를 검증하는 비즈니스 로직 방어선 구축.</li><li><b>CI/CD 파이프라인 통합:</b> GitHub Actions를 연동하여 새로운 코드가 푸시될 때마다 Headless 브라우저가 전수 검사를 단행하도록 세팅.</li><li><b>결과 도출:</b> 수동으로 테스트하면 10분 이상 걸리던 결제 플로우 테스트를 10초 이내에 자동 검증.</li></ul>",
-      "githubUrl": "https://github.com/Hanjiwoook/Gather_us"
-    },
-    {
-      "id": "qa-post-flow",
-      "sectionId": "qa",
-      "placeholderLabel": "API & AI Models",
-      "title": "Post Flow - 백엔드 API 및 AI 모델 신뢰성 검증",
-      "summary": "기능 검증을 넘어 '생성형 AI 모델(Gemini)' 간 연동이 예상대로 흘러가는지 서버(FastAPI) 단의 Health & Integration 테스트 환경 점검.",
-      "tags": ["API Testing", "FastAPI", "AI QA"],
-      "details": "<h3>💡 QA 전략 및 성과</h3><ul><li><b>End-point 분석:</b> Swagger(Docs)를 기반으로 클라이언트(Flutter)와 서버 통신 전, 서버 헬스체크 및 이미지 업로드 분석 모듈 단일 검증.</li><li><b>AI 응답 무결성 확인:</b> 토큰/AI Hallucination 예방을 위한 다양한 사진 조합(테스트 더미) 삽입 후 예측(Expectation) 값 도출 검증.</li></ul>",
-      "githubUrl": "https://github.com/Hanjiwoook/Post-Flow"
     }
   ];
-  
