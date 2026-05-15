@@ -19,16 +19,23 @@
     <!-- Top Bar: Navigation & Theme Toggle -->
     <nav class="top-nav">
         <a href="#hero" class="logo">HJU.<span>Portfolio</span></a>
-        <div class="nav-links">
-            <a href="#hero">Intro</a>
-            <a href="#about">About Me</a>
-            <a href="#projects">Projects</a>
-            <a href="#qa">QA Method</a>
+        
+        <div class="nav-actions">
+            <div class="nav-links" id="nav-links">
+                <a href="#hero">Intro</a>
+                <a href="#about">About Me</a>
+                <a href="#projects">Projects</a>
+                <a href="#qa">QA Method</a>
+            </div>
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                <i data-lucide="moon" class="dark-icon"></i>
+                <i data-lucide="sun" class="light-icon"></i>
+            </button>
+            <button id="mobile-menu-btn" class="hamburger-btn" aria-label="Toggle Menu">
+                <i data-lucide="menu" class="menu-icon"></i>
+                <i data-lucide="x" class="close-icon" style="display: none;"></i>
+            </button>
         </div>
-        <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
-            <i data-lucide="moon" class="dark-icon"></i>
-            <i data-lucide="sun" class="light-icon"></i>
-        </button>
     </nav>
 
     <!-- 메인 스크롤 컨테이너 -->

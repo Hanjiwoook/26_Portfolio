@@ -20,6 +20,37 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     });
 
+    // Mobile Menu Logic
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const navLinksContainer = document.getElementById('nav-links');
+    const menuIcon = mobileMenuBtn?.querySelector('.menu-icon');
+    const closeIcon = mobileMenuBtn?.querySelector('.close-icon');
+
+    if (mobileMenuBtn && navLinksContainer) {
+        mobileMenuBtn.addEventListener('click', () => {
+            const isActive = navLinksContainer.classList.contains('active');
+            navLinksContainer.classList.toggle('active');
+            
+            if (isActive) {
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+            } else {
+                menuIcon.style.display = 'none';
+                closeIcon.style.display = 'block';
+            }
+        });
+
+        // Close menu when clicking a link
+        const navLinks = navLinksContainer.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinksContainer.classList.remove('active');
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+            });
+        });
+    }
+
     // 4. Hero Terminal Typing Animation
     const typeTerminal = () => {
         const terminalBody = document.getElementById('hero-typing');
